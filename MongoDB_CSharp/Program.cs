@@ -1,8 +1,10 @@
 ﻿using MongoDB.Driver;
 
 using MongoDB_CSharp.Models;
+using MongoDB_CSharp.Repository;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace MongoDB_CSharp
 {
@@ -10,15 +12,11 @@ namespace MongoDB_CSharp
     {
         static void Main(string[] args)
         {
-            const string connectionString = "mongodb://localhost:27017";
-
+            UserRepository repository = new UserRepository();
+            
             try
             {
-                var client = new MongoClient(connectionString);
-                var database = client.GetDatabase("loja");
-
-                var collection = database.GetCollection<User>("customers");
-
+                
                 Console.WriteLine("Connect with the server!");
 
                 //Insert one register
@@ -29,7 +27,7 @@ namespace MongoDB_CSharp
                     password = "12345"
                 };
 
-                collection.InsertOne(user);
+                repository.InsertOne(user);
                 Console.WriteLine("Insert one register into collection");
 
                 //Insert many registers
@@ -49,7 +47,7 @@ namespace MongoDB_CSharp
                     }
                 };
 
-                collection.InsertMany(userList);
+                repository.InsertMany(userList);
                 Console.WriteLine("Insert a list of registers into collection");
 
                 Console.ReadLine();

@@ -11,5 +11,6 @@ namespace MongoDB_CSharp.Models
         public string email { get; set; }
         public string password { get; set; }
         public string name { get; set; }
+        public bool active { get; set; }
     }
 }

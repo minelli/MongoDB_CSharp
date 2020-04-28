@@ -98,6 +98,48 @@ namespace MongoDB_CSharp.Repository
             collection.UpdateMany(filter, update);
         }
 
+        /// <summary>
+        /// Method to delete one document from a collection
+        /// </summary>
+        /// <param name="filterName">The name of the filter</param>
+        /// <param name="filterValue">The value of the filter</param>
+        /// <returns>Return the quantity of deleted documents</returns>
+        public long DeleteOne(string filterName, object filterValue)
+        {
+            try
+            {
+                var filter = Builders<User>.Filter.Eq(filterName, filterValue);
+                var result = collection.DeleteOne(filter);
+                return result.DeletedCount;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Method to delete multiple documents from a collection
+        /// </summary>
+        /// <param name="filterName">The name of the filter</param>
+        /// <param name="filterValue">The value of the filter</param>
+        /// <returns>Return the quantity of deleted documents</returns>
+        public long DeleteMany(string filterName, object filterValue)
+        {
+            try
+            {
+                var filter = Builders<User>.Filter.Eq(filterName, filterValue);
+                var result = collection.DeleteMany(filter);
+                return result.DeletedCount;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #region Functions
         /// <summary>
         /// Method to get by reflection the properties name and value from object

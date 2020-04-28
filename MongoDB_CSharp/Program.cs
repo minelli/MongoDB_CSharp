@@ -52,6 +52,7 @@ namespace MongoDB_CSharp
                 #endregion
 
                 #region Update
+                /*
                 //Updating many fields, adding the new field 'Active', setting to false
                 var fields = new Dictionary<object, object>(){
                     { "active", false}
@@ -70,6 +71,33 @@ namespace MongoDB_CSharp
 
                 repository.UpdateOne(userUpdated);
                 Console.WriteLine("Updated one document from a collection");
+                */
+                #endregion
+
+                #region Delete
+
+                /*
+                 * Even if exists more than one document with the given filter,
+                 * will be deleted one because was selected the DeleteOne method. 
+                 * In this case, the first document found will be deleted
+                 */
+                var countOne = repository.DeleteOne("active", false);
+                bool successOneDeletion = countOne > 0;
+
+                if (successOneDeletion)
+                    Console.WriteLine($"Delete {countOne} documents from the collection");
+                else
+                    Console.WriteLine("No documents in the collection with the given filters");
+
+
+                var countMany = repository.DeleteMany("active", false);
+                bool successManyDeletion = countMany > 0;
+
+                if (successManyDeletion)
+                    Console.WriteLine($"Delete {countMany} documents from the collection");
+                else
+                    Console.WriteLine("No documents in the collection with the given filters");
+
 
                 #endregion
                 Console.ReadLine();

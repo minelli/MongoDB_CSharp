@@ -13,8 +13,20 @@ namespace MongoDB_CSharp.Models
         public string email { get; set; }
         public string password { get; set; }
         public string name { get; set; }
-        public bool active { get; set; }
+        public bool active { get; set; } = true;
+        public Address address { get; set; }
 
-        public string GetAllInfos() { return $"User: {name} - email: {email} - password: {password} - active: {active}";  }
+        public string GetAllInfos()
+        {
+            return $"User: {name} - email: {email} - password: {password} - active: {active} {this.GetAddress()}";
+        }
+
+        private string GetAddress()
+        {
+            if (address == null)
+                return "";
+
+            return $"{Environment.NewLine}Address: {address.number}, {address.streetAddress} - {address.city} {address.province} {address.country} { Environment.NewLine} ";
+        }
     }
 }

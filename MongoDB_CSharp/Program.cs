@@ -2,6 +2,7 @@
 using MongoDB_CSharp.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MongoDB_CSharp
 {
@@ -81,6 +82,8 @@ namespace MongoDB_CSharp
                  * will be deleted one because was selected the DeleteOne method. 
                  * In this case, the first document found will be deleted
                  */
+
+                /*
                 var countOne = repository.DeleteOne("active", false);
                 bool successOneDeletion = countOne > 0;
 
@@ -98,6 +101,25 @@ namespace MongoDB_CSharp
                 else
                     Console.WriteLine("No documents in the collection with the given filters");
 
+                */
+                #endregion
+
+                #region List
+                var filters = new List<Filter>
+                {
+                    new Filter("password","12345"),
+                    new Filter("active", false, EFilterOperation.AND)
+                };
+
+                Console.WriteLine("Listing all\n");
+                var allUsers = repository.List().ToList();
+                allUsers.ForEach(u => Console.WriteLine(u.GetAllInfos()));
+
+                Console.WriteLine("\nListing with filters");
+                filters.ForEach(f => Console.WriteLine($"{f.FilterName} - {f.FilterValue} - {f.Operation.ToString()}"));
+                Console.WriteLine("\n");
+                var userFiltered = repository.List(filters).ToList();
+                userFiltered.ForEach(u => Console.WriteLine(u.GetAllInfos()));
 
                 #endregion
                 Console.ReadLine();

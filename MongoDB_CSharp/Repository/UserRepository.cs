@@ -140,6 +140,37 @@ namespace MongoDB_CSharp.Repository
             }
         }
 
+
+        /// <summary>
+        /// Method to update one document from a collection
+        /// </summary>
+        /// <param name="instance">The object to update</param>
+        public IEnumerable<User> List(List<Filter> filters = null)
+        {
+            try
+            {
+                var filter = Builders<User>.Filter.Empty;
+
+                if (filters != null)
+                {
+                    foreach (var item in filters)
+                    {
+                        if(item.Operation == EFilterOperation.AND)
+                            filter = filter & (Builders<User>.Filter.Eq(item.FilterName, item.FilterValue));
+                        else
+                            filter = filter | (Builders<User>.Filter.Eq(item.FilterName, item.FilterValue));
+                    }
+                }
+
+
+                return collection.Find(filter).ToEnumerable();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #region Functions
         /// <summary>
         /// Method to get by reflection the properties name and value from object
